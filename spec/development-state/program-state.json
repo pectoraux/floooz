@@ -1,5 +1,5 @@
 {
-  "version": 3,
+  "version": 4,
   "project": "floooz",
   "status": "PLANNED",
   "sourceOfTruth": "repository",
@@ -16,11 +16,19 @@
   "workOrders": "spec/work-orders.md",
   "dependencyGraph": "spec/dependency-graph.md",
   "items": [
-    {"id":"FZ-001","status":"READY","dependsOn":[]},
-    {"id":"FZ-002","status":"BLOCKED","dependsOn":["FZ-001"]},
+    {"id":"FZ-001","status":"FINAL","dependsOn":[],
+     "acceptedVia":{
+       "pr": 1,
+       "branch": "fz-001/repository-bootstrap",
+       "commit": "0847767a5290be0c21c37917b45e7468a39e7b2f",
+       "ciRun": "https://github.com/pectoraux/floooz/actions/runs/33846229681",
+       "ciConclusion": "success",
+       "evidence": "repository-contracts validation passed for the bootstrap contracts on PR head 0847767 before this state advance"
+     }},
+    {"id":"FZ-002","status":"READY","dependsOn":["FZ-001"]},
     {"id":"FZ-003","status":"BLOCKED","dependsOn":["FZ-002"]},
     {"id":"FZ-004","status":"BLOCKED","dependsOn":["FZ-003"]},
-    {"id":"FZ-005","status":"BLOCKED","dependsOn":["FZ-001"]},
+    {"id":"FZ-005","status":"READY","dependsOn":["FZ-001"]},
     {"id":"FZ-006","status":"BLOCKED","dependsOn":["FZ-004"]},
     {"id":"FZ-007","status":"BLOCKED","dependsOn":["FZ-006"]},
     {"id":"FZ-008","status":"BLOCKED","dependsOn":["FZ-003","FZ-006"]},
@@ -35,7 +43,7 @@
     {"id":"FZ-017","status":"BLOCKED","dependsOn":["FZ-016"]},
     {"id":"FZ-018","status":"BLOCKED","dependsOn":["FZ-017"]},
     {"id":"FZ-019","status":"BLOCKED","dependsOn":["FZ-018"]},
-    {"id":"FZ-020","status":"BLOCKED","dependsOn":["FZ-001"]},
+    {"id":"FZ-020","status":"READY","dependsOn":["FZ-001"]},
     {"id":"FZ-021","status":"BLOCKED","dependsOn":["FZ-020"]},
     {"id":"FZ-022","status":"BLOCKED","dependsOn":["FZ-020"]},
     {"id":"FZ-023","status":"BLOCKED","dependsOn":["FZ-022"]},
