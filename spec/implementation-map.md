@@ -1,318 +1,141 @@
-# Floooz Implementation Map
+# Floooz Detailed Implementation Map
 
-**Status:** FROZEN
-**Role:** Human-readable implementation roadmap and progress authority
-**Machine counterpart:** `spec/development-state/program-state.json`
+**Status:** FROZEN SUPPORTING ARTIFACT
+**Canonical roadmap:** `spec/implementation-roadmap.md`
+**Machine progress authority:** `spec/development-state/program-state.json`
 
-This map is the canonical human-readable view of implementation progress. It MUST be updated after every completed, reverted, or blocked FZ work item. The machine-readable status in `spec/development-state/program-state.json` and this map must agree; disagreement is an invalid governed repository state and must be corrected before new work starts.
+This document contains the detailed implementation mapping behind the canonical roadmap. It is not a second progress authority. Statuses are authoritative in `program-state.json`; the same statuses are rendered in `implementation-roadmap.md`.
 
-## Source-of-truth order
-
-1. `spec/architecture-lock.md` — frozen architectural invariants
-2. `spec/requirements.md` — product requirements
-3. `spec/work-items.md` — work-item scope
-4. `spec/dependency-graph.md` — dependency authority
-5. `spec/development-state/program-state.json` — machine-readable work-item status
-6. `spec/implementation-map.md` — human-readable roadmap/progress authority
-7. `spec/work-orders.md` — implementation instructions for the selected work item
-
-An implementation agent MUST NOT derive scope from chat history.
-
-## Status legend
-
-- `⬜ BLOCKED` — dependencies are incomplete
-- `🟦 READY` — all hard dependencies satisfied; eligible to start
-- `🔄 ACTIVE` — implementation in progress on an active branch/PR
-- `✅ FINAL` — accepted, verified, and merged/finalized
-- `⛔ BLOCKED` — blocked after starting due to an identified dependency or external condition
-- `↩️ REWORK` — previously accepted work requires a governed corrective change
-
-## Progress map
+## Product execution model
 
 ```text
-FLOOOZ AGENT PLATFORM
-                  Reality → Perception → Memory → Decision → Action → Presence → Evolution
-
-                                      ┌───────────────────────┐
-                                      │       FZ-001          │
-                                      │ Repository / Bootstrap│
-                                      │       STANDARD        │
-                                      │       🟦 READY        │
-                                      └───────────┬───────────┘
-                                                  │
-                         ┌────────────────────────┼────────────────────────┐
-                         │                        │                        │
-                         ▼                        ▼                        ▼
-                ┌────────────────┐      ┌────────────────┐       ┌────────────────┐
-                │    FZ-002      │      │    FZ-005      │       │    FZ-020      │
-                │ Domain IDs     │      │ Config/Secrets │       │ Permission     │
-                │    STANDARD    │      │    STANDARD    │       │    CRITICAL    │
-                │   ⬜ BLOCKED    │      │   ⬜ BLOCKED    │       │   ⬜ BLOCKED    │
-                └───────┬────────┘      └────────────────┘       └───────┬────────┘
-                        │                                                 │
-                        ▼                                                 ▼
-                ┌────────────────┐                              ┌────────────────┐
-                │    FZ-003      │                              │    FZ-021      │
-                │ PostgreSQL     │                              │ Autonomy       │
-                │    STANDARD    │                              │ Policy         │
-                │   ⬜ BLOCKED    │                              │    CRITICAL    │
-                └───────┬────────┘                              │   ⬜ BLOCKED    │
-                        │                                       └───────┬────────┘
-                        ▼                                               │
-                ┌────────────────┐                                     │
-                │    FZ-004      │                                     │
-                │ Event Envelope │                                     │
-                │    STANDARD    │                                     │
-                │   ⬜ BLOCKED    │                                     │
-                └───────┬────────┘                                     │
-                        │                                               │
-                        ▼                                               │
-                ┌────────────────┐                                     │
-                │    FZ-006      │                                     │
-                │ API Foundation │                                     │
-                │    STANDARD    │                                     │
-                │   ⬜ BLOCKED    │                                     │
-                └───────┬────────┘                                     │
-                        │                                               │
-               ┌────────┼────────┬─────────────┐                       │
-               │        │        │             │                       │
-               ▼        ▼        ▼             ▼                       ▼
-          ┌─────────┐ ┌───────┐ ┌─────────┐ ┌─────────┐          ┌────────────────┐
-          │ FZ-007  │ │FZ-008  │ │ FZ-033  │ │ FZ-040  │          │    FZ-022      │
-          │ Health  │ │ Agent  │ │ Devices │ │ Model   │          │ Capability     │
-          │ Observ. │ │ Life   │ │ Registry│ │ Router  │          │ Domain         │
-          │ STANDARD│ │STANDARD│ │STANDARD │ │CRITICAL │          │ HIGH_ASSURANCE │
-          │ ⬜      │ │ ⬜     │ │ ⬜      │ │ ⬜      │          │ ⬜ BLOCKED    │
-          └─────────┘ └───┬───┘ └────┬────┘ └─────────┘          └───────┬─────────┘
-                           │           │                                   │
-                           ▼           ▼                                   ▼
-                     ┌──────────┐ ┌──────────┐                     ┌────────────────┐
-                     │ FZ-009   │ │ FZ-034   │                     │    FZ-023      │
-                     │ Genome   │ │ Device   │                     │ Capability     │
-                     │ Version  │ │ Caps     │                     │ Resolver       │
-                     │ CRITICAL │ │ STANDARD │                     │    CRITICAL    │
-                     │ ⬜       │ │ ⬜       │                     │   ⬜ BLOCKED    │
-                     └────┬─────┘ └────┬─────┘                     └───────┬─────────┘
-                          │             │                                   │
-              ┌───────────┼──────────┐  ▼                                   ▼
-              │           │          │┌──────────┐                    ┌────────────────┐
-              ▼           ▼          ▼│ FZ-035   │                    │    FZ-024      │
-        ┌──────────┐ ┌──────────┐ ┌────┴─────┐ │ Device   │                    │ Action         │
-        │ FZ-010   │ │ FZ-011   │ │ FZ-015   │ │ Execute  │                    │ Planning      │
-        │ Identity │ │Personality│ │ Memory   │ │ CRITICAL │                    │ STANDARD      │
-        │ STANDARD │ │STANDARD  │ │ CRITICAL │ │ ⬜      │                    │ ⬜ BLOCKED    │
-        └────┬─────┘ └────┬─────┘ └────┬─────┘ └──────────┘                    └───────┬─────────┘
-             │              │              │                                             │
-             └───────┬──────┘              ▼                                             │
-                     ▼              ┌──────────┐                                         │
-              ┌────────────┐        │ FZ-016   │                                         │
-              │ FZ-012     │        │ Memory   │                                         │
-              │ Behavioral │        │ Retrieval │                                         │
-              │ Rules      │        │ CRITICAL │                                         │
-              │ STANDARD   │        │ ⬜       │                                         │
-              └────┬───────┘        └────┬─────┘                                         │
-                   ▼                     │                                               │
-              ┌────────────┐             ▼                                               │
-              │ FZ-013     │       ┌──────────┐                                          │
-              │ Owner Model│       │ FZ-017   │                                          │
-              │ CRITICAL   │       │Consolid. │                                          │
-              │ ⬜         │       │ CRITICAL │                                          │
-              └────┬───────┘       │ ⬜       │                                          │
-                   ▼                └────┬─────┘                                          │
-              ┌────────────┐             ▼                                               │
-              │ FZ-014     │       ┌──────────┐                                           │
-              │ Preference │       │ FZ-018   │                                           │
-              │ Evidence   │       │Correction│                                           │
-              │ CRITICAL   │       │ CRITICAL │                                           │
-              │ ⬜         │       │ ⬜       │                                           │
-              └────────────┘       └────┬─────┘                                           │
-                                          ▼                                               │
-                                    ┌──────────┐                                           │
-                                    │ FZ-019   │                                           │
-                                    │ Memory   │                                           │
-                                    │ Audit    │                                           │
-                                    │ HIGH_AS  │                                           │
-                                    │ ⬜       │                                           │
-                                    └──────────┘                                           │
-                                                                                         │
-                         ┌───────────────────────────────────────────────────────────────┘
-                         │
-                         ▼
-                ┌────────────────┐
-                │    FZ-025      │
-                │ Policy Enforced│
-                │ Execution GW   │
-                │    CRITICAL    │
-                │   ⬜ BLOCKED   │
-                └───────┬────────┘
-                        │
-                        ▼
-                ┌────────────────┐
-                │    FZ-026      │
-                │ Capability     │
-                │ Bindings       │
-                │    STANDARD    │
-                │   ⬜ BLOCKED   │
-                └────────┬───────┘
-                         │
-                         ▼
-                 ┌─────────────────── WORKFLOWOS ───────────────────┐
-                 │                                                   │
-                 │  FZ-027 → FZ-028 → FZ-029 → FZ-030 → FZ-031     │
-                 │ Adapter   Discovery  Install   Invoke   Observe   │
-                 │   🔴→🟦     ⬜        ⬜        ⬜       ⬜       │
-                 │                          │                        │
-                 │                          ▼                        │
-                 │                       FZ-032                     │
-                 │                Evidence Presentation             │
-                 │                    HIGH_ASSURANCE                 │
-                 │                       ⬜                           │
-                 └────────────────────────┬───────────────────────────┘
-                                          │
-                     ┌────────────────────┼────────────────────┐
-                     │                    │                    │
-                     ▼                    ▼                    ▼
-              ┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-              │    FZ-036    │    │    FZ-038    │    │    FZ-042    │
-              │ Realtime     │    │ Local        │    │ Embodiment   │
-              │ Sessions     │    │ Perception   │    │ Contract     │
-              │ STANDARD     │    │ CRITICAL     │    │ HIGH_ASSUR.  │
-              │ ⬜           │    │ ⬜           │    │ ⬜           │
-              └──────┬───────┘    └──────┬───────┘    └──────┬───────┘
-                     │                   │                   │
-                     ▼                   ▼                   ▼
-              ┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-              │    FZ-037    │    │    FZ-039    │    │    FZ-043    │
-              │ Realtime     │    │ Reflex       │    │ Performance  │
-              │ Transport    │    │ Engine       │    │ Director     │
-              │ STANDARD     │    │ CRITICAL     │    │ HIGH_ASSUR.  │
-              │ ⬜           │    │ ⬜           │    │ ⬜           │
-              └──────┬───────┘    └──────────────┘    └──────┬───────┘
-                     │                                        │
-                     ▼                                        ▼
-              ┌──────────────┐                        ┌──────────────┐
-              │    FZ-041    │                        │    FZ-044    │
-              │ Voice /      │                        │ Semantic     │
-              │ Realtime     │                        │ Animation SDK│
-              │ CRITICAL     │                        │ HIGH_ASSUR.  │
-              │ ⬜           │                        │ ⬜           │
-              └──────────────┘                        └──────┬───────┘
-                                                             │
-                                                             ▼
-                                                     ┌──────────────┐
-                                                     │    FZ-045    │
-                                                     │ Extension    │
-                                                     │ Runtime      │
-                                                     │ CRITICAL     │
-                                                     │ ⬜           │
-                                                     └──────┬───────┘
-                                                            │
-                                                            ▼
-                                                     ┌──────────────┐
-                                                     │    FZ-046    │
-                                                     │ Extension    │
-                                                     │ Policy Bridge │
-                                                     │ CRITICAL     │
-                                                     │ ⬜           │
-                                                     └──────────────┘
-
-                                 SOCIAL / MULTI-AGENT / EVOLUTION
-
-                ┌────────────────┐                           ┌────────────────┐
-                │    FZ-047      │                           │    FZ-049      │
-                │ Social Identity│                           │ Personality    │
-                │ + A2A Boundary │                           │ Evolution      │
-                │    CRITICAL    │                           │    CRITICAL    │
-                │   ⬜ BLOCKED   │                           │   ⬜ BLOCKED   │
-                └───────┬────────┘                           └───────┬────────┘
-                        │                                           │
-                        ▼                                           ▼
-                ┌────────────────┐                           ┌────────────────┐
-                │    FZ-048      │                           │    FZ-050      │
-                │ Relationships  │                           │ Routing +      │
-                │ + Social       │                           │ Personalization│
-                │ Sessions       │                           │ Learning       │
-                │ HIGH_ASSURANCE │                           │    CRITICAL    │
-                │   ⬜ BLOCKED   │                           │   ⬜ BLOCKED   │
-                └────────────────┘                           └────────────────┘
+Reality / user input
+        ↓
+Perception + device signals
+        ↓
+Evidence / durable events
+        ↓
+Memory + owner model
+        ↓
+Decision / model routing / capability resolution
+        ↓
+Policy
+        ↓
+Action / external capability
+        ↓
+Observable result / evidence
+        ↓
+Presence / user-facing presentation
+        ↓
+Feedback
+        ↓
+Memory + owner-model + evolution updates
 ```
 
-## Implementation order
+## Authority map
 
-### Stage A — Repository and platform substrate
+| Concern | Authority |
+|---|---|
+| Frozen architecture invariants | `spec/architecture-lock.md` |
+| Product requirements | `spec/requirements.md` |
+| Work-item scope | `spec/work-items.md` + selected section of `spec/work-orders.md` |
+| Dependency eligibility | `spec/dependency-graph.md` + `program-state.json` |
+| Implementation sequencing/progress | `spec/implementation-roadmap.md` + synchronized `program-state.json` |
+| Detailed API/domain contracts | `spec/api-contracts.md` + `spec/architecture.md` |
+| Workflow definitions/state/execution/verification/artifacts | WorkflowOS |
+| Device-local execution | device runtime, subject to server policy |
+| Public agent interoperability | A2A boundary |
+| Tool/data interoperability | MCP boundary |
 
-`FZ-001 → FZ-002 → FZ-003 → FZ-004 → FZ-006 → FZ-007`
+## FZ implementation streams
 
-`FZ-005` is parallel after `FZ-001`.
+### Foundation
 
-### Stage B — Identity, personalization, memory
+`FZ-001` repository/bootstrap → `FZ-002` domain IDs → `FZ-003` persistence → `FZ-004` events → `FZ-006` API → `FZ-007` observability.
 
-`FZ-008 → FZ-009 → FZ-010/FZ-011 → FZ-012 → FZ-013 → FZ-014`
+`FZ-005` configuration/secrets branches from FZ-001.
 
-Memory stream:
+### Identity / memory
 
-`FZ-008 → FZ-015 → FZ-016 → FZ-017 → FZ-018 → FZ-019`
+`FZ-008` agent lifecycle → `FZ-009` genome; FZ-008 also enables `FZ-010` identity, `FZ-011` personality, `FZ-015` memory, `FZ-036` sessions and `FZ-042` embodiment.
 
-The identity/personality and memory streams may proceed in parallel where dependencies permit.
+Identity/personality: `FZ-010 + FZ-011 → FZ-012 → FZ-013 → FZ-014`.
 
-### Stage C — Authority and capabilities
+Memory: `FZ-015 → FZ-016 → FZ-017 → FZ-018 → FZ-019`.
 
-`FZ-020 → FZ-021`
+### Policy / capabilities
 
-`FZ-020 → FZ-022 → FZ-023 → FZ-024`
+`FZ-001 → FZ-020 → FZ-021`.
 
-`FZ-021 + FZ-024 → FZ-025 → FZ-026`
+`FZ-020 → FZ-022 → FZ-023 → FZ-024`.
 
-### Stage D — WorkflowOS integration
+`FZ-021 + FZ-024 → FZ-025 → FZ-026`.
 
-`FZ-027 → FZ-028 → FZ-029 → FZ-030 → FZ-031 → FZ-032`
+### WorkflowOS integration
 
-No WorkflowOS workflow execution semantics are implemented locally.
+`FZ-006 + FZ-020 → FZ-027 → FZ-028`.
 
-### Stage E — Device and realtime presence
+`FZ-028 + FZ-026 → FZ-029 → FZ-030 → FZ-031 → FZ-032`.
 
-`FZ-006 → FZ-033 → FZ-034 → FZ-035`
+Floooz only discovers, binds, invokes, observes and presents WorkflowOS. It never duplicates WorkflowOS workflow execution/state/verification authority.
 
-`FZ-008 → FZ-036 → FZ-037 → FZ-041`
+### Devices / realtime
 
-`FZ-036 → FZ-038 → FZ-039`
+`FZ-006 → FZ-033 → FZ-034 → FZ-035`.
 
-`FZ-006 → FZ-040`
+`FZ-008 → FZ-036 → FZ-037`.
 
-`FZ-037 + FZ-040 → FZ-041`
+`FZ-036 → FZ-038 → FZ-039`.
 
-### Stage F — Embodiment and developer platform
+`FZ-006 → FZ-040`.
 
-`FZ-008 → FZ-042 → FZ-043 → FZ-044`
+`FZ-037 + FZ-040 → FZ-041`.
 
-`FZ-020 + FZ-022 → FZ-045 → FZ-046`
+### Embodiment / extensions
 
-### Stage G — Agent network and evolution
+`FZ-008 → FZ-042 → FZ-043 → FZ-044`.
 
-`FZ-008 + FZ-006 → FZ-047 → FZ-048`
+`FZ-020 + FZ-022 → FZ-045 → FZ-046`.
 
-`FZ-013 + FZ-014 → FZ-049`
+### Social / evolution
 
-`FZ-040 + FZ-049 → FZ-050`
+`FZ-008 + FZ-006 → FZ-047 → FZ-048`.
 
-## Progress-update protocol
+`FZ-013 + FZ-014 → FZ-049`.
 
-After a work item reaches `✅ FINAL`, the implementing agent MUST update both:
+`FZ-040 + FZ-049 → FZ-050`.
 
-1. `spec/development-state/program-state.json`
-2. this file's status marker for that work item
+## Cross-cutting invariants
 
-The update MUST include, where applicable:
+1. No production side effect before the capability/policy execution gateway exists and is enforced.
+2. No LLM output is authoritative for permissions, durable state, or workflow completion.
+3. WorkflowOS remains external execution authority.
+4. PostgreSQL is authoritative Floooz state; Redis/cache/process memory is not.
+5. Realtime sessions are ephemeral; agent identity and memory are durable.
+6. Raw camera/microphone/screen media stays local by default.
+7. Semantic device and embodiment APIs are preferred over pixel/renderer-specific contracts.
+8. Extensions are sandboxed and least-privileged.
+9. One FZ work item per branch/PR.
+10. A work item is complete only with objective acceptance evidence.
 
-- branch
-- PR
-- merge commit
-- verification command(s)
-- acceptance evidence location
-- implementation notes affecting downstream work
+## Fresh-agent completion loop
 
-A work item may not be marked `✅ FINAL` because an agent claims completion. Acceptance evidence must exist in the repository/CI or in the authoritative external system boundary.
-
-## Authority rule
-
-Once this roadmap is frozen, it is authoritative for implementation progress and sequencing. It does not override `spec/architecture-lock.md`, requirements, or WorkflowOS's own authority. If progress sequencing must change, the dependency graph and program state must be updated together and the reason recorded as a governed repository change.
+```text
+read roadmap + program state
+        ↓
+choose dependency-eligible FZ item
+        ↓
+read work order + contracts
+        ↓
+inspect repository
+        ↓
+implement smallest conforming change
+        ↓
+run tests/static/security/privacy checks
+        ↓
+record acceptance evidence
+        ↓
+synchronize program state + implementation roadmap
+        ↓
+PR
+```
