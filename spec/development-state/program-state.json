@@ -1,8 +1,15 @@
 {
-  "version": 1,
+  "version": 2,
   "project": "floooz",
   "status": "PLANNED",
   "sourceOfTruth": "repository",
+  "roadmap": {
+    "path": "spec/implementation-map.md",
+    "status": "FROZEN",
+    "authority": "human-readable implementation sequencing and progress",
+    "machineCounterpart": "spec/development-state/program-state.json",
+    "synchronizationRequired": true
+  },
   "architectureLock": "spec/architecture-lock.md",
   "workItems": "spec/work-items.md",
   "workOrders": "spec/work-orders.md",
