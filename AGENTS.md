@@ -5,20 +5,21 @@ This repository is the sole source of truth for implementation. Assume no access
 ## Mandatory reading order
 
 1. `README.md`
-2. `spec/implementation-map.md`
-3. `spec/development-state/program-state.json`
-4. `spec/architecture-lock.md`
-5. `spec/architecture.md`
-6. `spec/requirements.md`
-7. `spec/work-items.md`
-8. `spec/work-orders.md`
-9. `spec/dependency-graph.md`
-10. `docs/implementation/IMPLEMENTATION-GUIDE.md`
+2. `spec/implementation-roadmap.md` — frozen visual roadmap and progress authority
+3. `spec/implementation-map.md` — detailed roadmap/contracts map
+4. `spec/development-state/program-state.json` — canonical machine state
+5. `spec/architecture-lock.md`
+6. `spec/architecture.md`
+7. `spec/requirements.md`
+8. `spec/work-items.md`
+9. `spec/work-orders.md`
+10. `spec/dependency-graph.md`
+11. `docs/implementation/IMPLEMENTATION-GUIDE.md`
 
 Then read the specialist contract for the surface being changed:
 
 - WorkflowOS: `docs/integrations/WORKFLOWOS.md` and `docs/integrations/WORKFLOWOS-BASELINE.md`
-- Android/Gemini: `GEMINI.md` and `docs/android/ANDROID-IMPLEMENTATION.md`
+- Android/Gemini: `GEMINI.md`, `docs/android/ANDROID-IMPLEMENTATION.md`, and `docs/android/FZ-ANDROID-WORKSTREAM.md`
 - Z.ai: `ZAI.md`
 
 ## Frozen architecture
@@ -27,7 +28,7 @@ Do not change frozen invariants in an implementation PR. Architecture changes re
 
 ## Roadmap authority
 
-`spec/implementation-map.md` is the frozen human-readable roadmap and progress authority. `spec/development-state/program-state.json` is its machine-readable counterpart. Every completed/reverted/blocked work item must update both consistently. A mismatch is an invalid governed repository state.
+`spec/implementation-roadmap.md` is the frozen human-readable roadmap and progress authority. `spec/development-state/program-state.json` is its machine-readable counterpart. `spec/implementation-map.md` is the detailed supporting map. Every completed, reverted, or blocked work item must update the machine state and the roadmap consistently. A mismatch is an invalid governed repository state.
 
 The roadmap controls implementation sequencing/progress only. It does not override architecture invariants, requirements, dependency rules, or WorkflowOS authority.
 
