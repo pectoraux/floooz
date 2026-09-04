@@ -1,12 +1,13 @@
 {
-  "version": 2,
+  "version": 3,
   "project": "floooz",
   "status": "PLANNED",
   "sourceOfTruth": "repository",
   "roadmap": {
-    "path": "spec/implementation-map.md",
+    "path": "spec/implementation-roadmap.md",
     "status": "FROZEN",
     "authority": "human-readable implementation sequencing and progress",
+    "detailedMap": "spec/implementation-map.md",
     "machineCounterpart": "spec/development-state/program-state.json",
     "synchronizationRequired": true
   },
