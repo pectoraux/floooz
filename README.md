@@ -9,19 +9,20 @@ This GitHub repository is the sole source of truth. No prior conversation, chat 
 ### Read first — all agents
 
 1. [`AGENTS.md`](AGENTS.md) — mandatory operating contract
-2. [`spec/implementation-map.md`](spec/implementation-map.md) — frozen human-readable roadmap and progress authority
-3. [`spec/development-state/program-state.json`](spec/development-state/program-state.json) — canonical machine-readable progress state
-4. [`spec/architecture-lock.md`](spec/architecture-lock.md) — frozen architecture invariants
-5. [`spec/architecture.md`](spec/architecture.md) — architecture description
-6. [`spec/requirements.md`](spec/requirements.md) — requirements
-7. [`spec/work-items.md`](spec/work-items.md) — work-item scope
-8. [`spec/work-orders.md`](spec/work-orders.md) — work-item implementation instructions
-9. [`spec/dependency-graph.md`](spec/dependency-graph.md) — dependency authority
-10. [`docs/implementation/IMPLEMENTATION-GUIDE.md`](docs/implementation/IMPLEMENTATION-GUIDE.md) — implementation protocol
+2. [`spec/implementation-roadmap.md`](spec/implementation-roadmap.md) — **frozen human-readable roadmap and progress authority**
+3. [`spec/implementation-map.md`](spec/implementation-map.md) — detailed dependency/progress map
+4. [`spec/development-state/program-state.json`](spec/development-state/program-state.json) — canonical machine-readable progress state
+5. [`spec/architecture-lock.md`](spec/architecture-lock.md) — frozen architecture invariants
+6. [`spec/architecture.md`](spec/architecture.md) — architecture description
+7. [`spec/requirements.md`](spec/requirements.md) — requirements
+8. [`spec/work-items.md`](spec/work-items.md) — work-item scope
+9. [`spec/work-orders.md`](spec/work-orders.md) — work-item implementation instructions
+10. [`spec/dependency-graph.md`](spec/dependency-graph.md) — dependency authority
+11. [`docs/implementation/IMPLEMENTATION-GUIDE.md`](docs/implementation/IMPLEMENTATION-GUIDE.md) — implementation protocol
 
 ### Specialist entry points
 
-Android Studio Gemini: [`GEMINI.md`](GEMINI.md) and [`docs/android/ANDROID-IMPLEMENTATION.md`](docs/android/ANDROID-IMPLEMENTATION.md)
+Android Studio Gemini: [`GEMINI.md`](GEMINI.md), [`docs/android/ANDROID-IMPLEMENTATION.md`](docs/android/ANDROID-IMPLEMENTATION.md), and [`docs/android/FZ-ANDROID-WORKSTREAM.md`](docs/android/FZ-ANDROID-WORKSTREAM.md)
 
 Z.ai: [`ZAI.md`](ZAI.md)
 
@@ -29,7 +30,7 @@ WorkflowOS integration: [`docs/integrations/WORKFLOWOS.md`](docs/integrations/WO
 
 ## Implementation rule
 
-Select work only from `spec/development-state/program-state.json` where all hard dependencies are satisfied. Read the corresponding work order and inspect the repository before coding. One FZ work item per branch/PR. Completion requires objective evidence and synchronized updates to program state and `spec/implementation-map.md`.
+Select work only from `spec/development-state/program-state.json` where all hard dependencies are satisfied. Read the corresponding work order and inspect the repository before coding. One FZ work item per branch/PR. Completion requires objective evidence and synchronized updates to `spec/development-state/program-state.json` and `spec/implementation-roadmap.md`.
 
 ## Architecture
 
