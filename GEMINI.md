@@ -5,16 +5,18 @@ Treat this GitHub repository as the only source of truth. No prior chat or produ
 ## Read in this order
 
 1. `AGENTS.md`
-2. `spec/implementation-map.md`
-3. `spec/development-state/program-state.json`
-4. `spec/architecture-lock.md`
-5. `spec/architecture.md`
-6. `spec/requirements.md`
-7. `spec/work-items.md`
-8. `spec/work-orders.md`
-9. `spec/dependency-graph.md`
-10. `docs/implementation/IMPLEMENTATION-GUIDE.md`
-11. `docs/android/ANDROID-IMPLEMENTATION.md`
+2. `spec/implementation-roadmap.md` — frozen roadmap/progress authority
+3. `spec/implementation-map.md` — detailed roadmap/contracts map
+4. `spec/development-state/program-state.json` — machine-readable progress state
+5. `spec/architecture-lock.md`
+6. `spec/architecture.md`
+7. `spec/requirements.md`
+8. `spec/work-items.md`
+9. `spec/work-orders.md`
+10. `spec/dependency-graph.md`
+11. `docs/implementation/IMPLEMENTATION-GUIDE.md`
+12. `docs/android/ANDROID-IMPLEMENTATION.md`
+13. `docs/android/FZ-ANDROID-WORKSTREAM.md`
 
 ## Android authority boundary
 
@@ -22,7 +24,7 @@ Android is a device runtime, not authoritative agent infrastructure. It owns dev
 
 ## Selecting Android work
 
-Do not invent an Android backlog. Use the frozen FZ roadmap. Android-related work becomes eligible only when its FZ dependencies are satisfied. In particular, device/runtime work follows the capability/policy foundation and must not bypass the server-side authority model.
+Do not invent an Android backlog. Use the frozen FZ roadmap and machine state. Android-related work becomes eligible only when its FZ dependencies are satisfied. Device/runtime work follows the capability/policy foundation and must not bypass the server-side authority model.
 
 ## Implementation expectations
 
@@ -37,4 +39,4 @@ Do not invent an Android backlog. Use the frozen FZ roadmap. Android-related wor
 
 ## Completion
 
-A Gemini agent must produce objective acceptance evidence, update `spec/development-state/program-state.json` and `spec/implementation-map.md` consistently, and follow the one-FZ-item-per-branch/PR rule.
+A Gemini agent must produce objective acceptance evidence, update `spec/development-state/program-state.json` and `spec/implementation-roadmap.md` consistently, and follow the one-FZ-item-per-branch/PR rule.
