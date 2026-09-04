@@ -13,7 +13,7 @@ FLOOOZ AGENT ENGINEER
                                       │        FZ-001            │
                                       │ Repo / Runtime Bootstrap │
                                       │         STANDARD         │
-                                      │          🟦 READY       │
+                                      │          ✅ FINAL       │
                                       └────────────┬─────────────┘
                                                    │
                        ┌───────────────────────────┼───────────────────────────┐
@@ -23,7 +23,7 @@ FLOOOZ AGENT ENGINEER
               │   FZ-002/003   │          │    FZ-005      │          │    FZ-020      │
               │ Domain + DB    │          │ Config/Secrets│          │ Permission     │
               │   STANDARD     │          │   STANDARD     │          │    CRITICAL    │
-              │   ⬜ BLOCKED   │          │   ⬜ BLOCKED   │          │   ⬜ BLOCKED   │
+              │  🟦 02 ⬜ 03   │          │   🟦 READY     │          │   🟦 READY     │
               └───────┬────────┘          └────────────────┘          └───────┬────────┘
                       │                                                        │
                       ▼                                                        ▼
@@ -189,11 +189,11 @@ The ledger below is the compact progress tracker. The machine state is canonical
 
 | Work item | Status | Assurance | Primary surface |
 |---|---|---|---|
-| FZ-001 | 🟦 READY | STANDARD | repo/platform |
-| FZ-002 | ⬜ BLOCKED | STANDARD | domain |
+| FZ-001 | ✅ FINAL | STANDARD | repo/platform |
+| FZ-002 | 🟦 READY | STANDARD | domain |
 | FZ-003 | ⬜ BLOCKED | STANDARD | persistence |
 | FZ-004 | ⬜ BLOCKED | STANDARD | events |
-| FZ-005 | ⬜ BLOCKED | STANDARD | config/security |
+| FZ-005 | 🟦 READY | STANDARD | config/security |
 | FZ-006 | ⬜ BLOCKED | STANDARD | API |
 | FZ-007 | ⬜ BLOCKED | STANDARD | observability |
 | FZ-008 | ⬜ BLOCKED | STANDARD | agent |
@@ -208,7 +208,7 @@ The ledger below is the compact progress tracker. The machine state is canonical
 | FZ-017 | ⬜ BLOCKED | CRITICAL | consolidation |
 | FZ-018 | ⬜ BLOCKED | CRITICAL | correction |
 | FZ-019 | ⬜ BLOCKED | HIGH_ASSURANCE | memory audit |
-| FZ-020 | ⬜ BLOCKED | CRITICAL | permissions |
+| FZ-020 | 🟦 READY | CRITICAL | permissions |
 | FZ-021 | ⬜ BLOCKED | CRITICAL | autonomy |
 | FZ-022 | ⬜ BLOCKED | HIGH_ASSURANCE | capabilities |
 | FZ-023 | ⬜ BLOCKED | CRITICAL | resolver |
